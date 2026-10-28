@@ -1,0 +1,275 @@
+/* Global styles for the Transaction Ledger SPA */
+:root {
+  --bg: #f4f6fb;
+  --card: #ffffff;
+  --ink: #1f2430;
+  --muted: #6b7280;
+  --border: #e2e6ef;
+  --primary: #3457d5;
+  --primary-ink: #ffffff;
+  --credit: #0f7b3f;
+  --credit-bg: #e4f6ec;
+  --debit: #b4232a;
+  --debit-bg: #fce8e9;
+  --error: #b4232a;
+  --success: #0f7b3f;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: 'Segoe UI', system-ui, -apple-system, Arial, sans-serif;
+  font-size: 15px;
+  line-height: 1.45;
+}
+
+h2 {
+  margin: 0 0 12px;
+  font-size: 1.15rem;
+}
+
+h3 {
+  margin: 20px 0 8px;
+  font-size: 1rem;
+}
+
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 18px;
+  box-shadow: 0 1px 2px rgba(16, 24, 40, 0.04);
+}
+
+.muted {
+  color: var(--muted);
+}
+
+.small {
+  font-size: 0.82rem;
+}
+
+.mono {
+  font-family: 'Cascadia Code', 'Consolas', monospace;
+}
+
+.error {
+  color: var(--error);
+  margin: 10px 0 0;
+}
+
+.success {
+  color: var(--success);
+  margin: 10px 0 0;
+}
+
+.notice {
+  color: var(--primary);
+  margin: 10px 0 0;
+}
+
+/* Forms */
+input,
+select,
+button {
+  font: inherit;
+  padding: 8px 10px;
+  border-radius: 7px;
+  border: 1px solid var(--border);
+  background: #fff;
+  color: var(--ink);
+}
+
+input:focus,
+select:focus {
+  outline: 2px solid rgba(52, 87, 213, 0.25);
+  border-color: var(--primary);
+}
+
+button {
+  background: var(--primary);
+  color: var(--primary-ink);
+  border-color: var(--primary);
+  cursor: pointer;
+}
+
+button:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.row {
+  display: flex;
+  gap: 8px;
+}
+
+.row input {
+  flex: 1;
+}
+
+.txn-form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: flex-end;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.field label {
+  font-size: 0.78rem;
+  color: var(--muted);
+}
+
+.field input,
+.field select {
+  min-width: 120px;
+}
+
+.field.grow {
+  flex: 1;
+}
+
+.field.grow input {
+  width: 100%;
+}
+
+/* Account list */
+.account-list {
+  list-style: none;
+  margin: 12px 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.account-list li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s;
+}
+
+.account-list li:hover {
+  border-color: var(--primary);
+}
+
+.account-list li.selected {
+  border-color: var(--primary);
+  background: rgba(52, 87, 213, 0.06);
+}
+
+.account-list li div {
+  display: flex;
+  flex-direction: column;
+}
+
+.account-list .balance {
+  font-weight: 600;
+}
+
+/* Detail */
+.detail-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.balance-badge {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.balance-badge strong {
+  font-size: 1.4rem;
+}
+
+/* Filters */
+.filters {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 10px;
+}
+
+.filters button {
+  background: #fff;
+  color: var(--ink);
+  border: 1px solid var(--border);
+}
+
+.filters button.active {
+  background: var(--primary);
+  color: var(--primary-ink);
+  border-color: var(--primary);
+}
+
+/* Table */
+.txn-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.88rem;
+}
+
+.txn-table th,
+.txn-table td {
+  text-align: left;
+  padding: 8px 10px;
+  border-bottom: 1px solid var(--border);
+}
+
+.txn-table th.num,
+.txn-table td.num {
+  text-align: right;
+}
+
+.tag {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  text-transform: capitalize;
+}
+
+.tag.credit {
+  color: var(--credit);
+  background: var(--credit-bg);
+}
+
+.tag.debit {
+  color: var(--debit);
+  background: var(--debit-bg);
+}
+
+/* Pager */
+.pager {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 12px;
+}
+
+.pager button {
+  background: #fff;
+  color: var(--ink);
+  border: 1px solid var(--border);
+}

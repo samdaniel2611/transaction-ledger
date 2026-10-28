@@ -1,0 +1,35 @@
+<section class="card">
+  <h2>Accounts</h2>
+
+  <form class="row" (ngSubmit)="create()">
+    <input
+      type="text"
+      name="name"
+      placeholder="Account holder name"
+      [(ngModel)]="name"
+      [disabled]="loading"
+    />
+    <button type="submit" [disabled]="loading">
+      {{ loading ? 'Creating…' : 'Create account' }}
+    </button>
+  </form>
+
+  <p class="error" *ngIf="error">{{ error }}</p>
+  <p class="success" *ngIf="success">{{ success }}</p>
+
+  <p class="muted" *ngIf="!accounts.length">No accounts yet. Create one above.</p>
+
+  <ul class="account-list" *ngIf="accounts.length">
+    <li
+      *ngFor="let a of accounts"
+      [class.selected]="a.id === selectedId"
+      (click)="select(a)"
+    >
+      <div>
+        <strong>{{ a.name }}</strong>
+        <span class="mono small">{{ a.id }}</span>
+      </div>
+      <span class="balance">{{ a.balance | number: '1.2-2' }}</span>
+    </li>
+  </ul>
+</section>

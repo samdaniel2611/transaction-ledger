@@ -1,0 +1,92 @@
+<section class="card" *ngIf="account; else noAccount">
+  <div class="detail-head">
+    <div>
+      <h2>{{ account.name }}</h2>
+      <span class="mono small">{{ account.id }}</span>
+    </div>
+    <div class="balance-badge">
+      <span class="muted small">Balance</span>
+      <strong>{{ balance | number: '1.2-2' }}</strong>
+    </div>
+  </div>
+
+  <!-- Add transaction -->
+  <h3>Add transaction</h3>
+  <form class="txn-form" (ngSubmit)="addTransaction()">
+    <div class="field">
+      <label>Type</label>
+      <select name="type" [(ngModel)]="txnType" [disabled]="submitting">
+        <option value="credit">Credit (+)</option>
+        <option value="debit">Debit (−)</option>
+      </select>
+    </div>
+    <div class="field">
+      <label>Amount</label>
+      <input type="number" name="amount" min="0" step="0.01" [(ngModel)]="amount" [disabled]="submitting" />
+    </div>
+    <div class="field">
+      <label>Reference ID</label>
+      <input type="text" name="reference_id" [(ngModel)]="referenceId" [disabled]="submitting" placeholder="unique per account" />
+    </div>
+    <div class="field grow">
+      <label>Description</label>
+      <input type="text" name="description" [(ngModel)]="description" [disabled]="submitting" placeholder="optional" />
+    </div>
+    <button type="submit" [disabled]="submitting">{{ submitting ? 'Saving…' : 'Add' }}</button>
+  </form>
+  <p class="error" *ngIf="formError">{{ formError }}</p>
+  <p class="notice" *ngIf="formNotice">{{ formNotice }}</p>
+
+  <!-- History -->
+  <h3>Transaction history</h3>
+  <div class="filters">
+    <button [class.active]="filterType === ''" (click)="applyFilter('')">All</button>
+    <button [class.active]="filterType === 'credit'" (click)="applyFilter('credit')">Credit</button>
+    <button [class.active]="filterType === 'debit'" (click)="applyFilter('debit')">Debit</button>
+  </div>
+
+  <p class="error" *ngIf="historyError">{{ historyError }}</p>
+  <p class="muted" *ngIf="!transactions.length && !historyError">No transactions for this filter.</p>
+
+  <table class="txn-table" *ngIf="transactions.length">
+    <thead>
+      <tr>
+        <th>Date</th>
+        <th>Type</th>
+        <th class="num">Amount</th>
+        <th class="num">Balance after</th>
+        <th>Reference</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let t of transactions">
+        <td class="small">{{ t.created_at | date: 'short' }}</td>
+        <td>
+          <span class="tag" [class.credit]="t.type === 'credit'" [class.debit]="t.type === 'debit'">
+            {{ t.type }}
+          </span>
+        </td>
+        <td class="num">{{ t.amount | number: '1.2-2' }}</td>
+        <td class="num">{{ t.balance_after | number: '1.2-2' }}</td>
+        <td class="mono small">{{ t.reference_id }}</td>
+        <td class="small">{{ t.description }}</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="pager" *ngIf="pagination">
+    <button (click)="goToPage(page - 1)" [disabled]="page <= 1">‹ Prev</button>
+    <span class="small">
+      Page {{ pagination.page }} / {{ pagination.total_pages }} ·
+      {{ pagination.total_records }} record(s)
+    </span>
+    <button (click)="goToPage(page + 1)" [disabled]="page >= pagination.total_pages">Next ›</button>
+  </div>
+</section>
+
+<ng-template #noAccount>
+  <section class="card muted">
+    <p>Select or create an account to view its balance and transactions.</p>
+  </section>
+</ng-template>

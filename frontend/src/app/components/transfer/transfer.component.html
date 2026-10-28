@@ -1,0 +1,41 @@
+<section class="card">
+  <h2>Money transfer</h2>
+  <p class="muted small">Atomic debit + credit between two accounts. Rolls back fully on any failure.</p>
+
+  <form class="txn-form" (ngSubmit)="submit()">
+    <div class="field">
+      <label>From</label>
+      <select name="from" [(ngModel)]="fromId" [disabled]="submitting">
+        <option value="" disabled>Select source…</option>
+        <option *ngFor="let a of accounts" [value]="a.id">
+          {{ a.name }} ({{ a.balance | number: '1.2-2' }})
+        </option>
+      </select>
+    </div>
+    <div class="field">
+      <label>To</label>
+      <select name="to" [(ngModel)]="toId" [disabled]="submitting">
+        <option value="" disabled>Select destination…</option>
+        <option *ngFor="let a of accounts" [value]="a.id">
+          {{ a.name }} ({{ a.balance | number: '1.2-2' }})
+        </option>
+      </select>
+    </div>
+    <div class="field">
+      <label>Amount</label>
+      <input type="number" name="amount" min="0" step="0.01" [(ngModel)]="amount" [disabled]="submitting" />
+    </div>
+    <div class="field">
+      <label>Reference ID</label>
+      <input type="text" name="reference_id" [(ngModel)]="referenceId" [disabled]="submitting" placeholder="optional" />
+    </div>
+    <div class="field grow">
+      <label>Description</label>
+      <input type="text" name="description" [(ngModel)]="description" [disabled]="submitting" placeholder="optional" />
+    </div>
+    <button type="submit" [disabled]="submitting">{{ submitting ? 'Transferring…' : 'Transfer' }}</button>
+  </form>
+
+  <p class="error" *ngIf="error">{{ error }}</p>
+  <p class="success" *ngIf="success">{{ success }}</p>
+</section>
